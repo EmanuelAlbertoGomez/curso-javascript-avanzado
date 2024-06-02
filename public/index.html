@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="./css/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Bootstrap icons CSS-->
+    <link rel="stylesheet" href="./css/bootstrap-icons/font/bootstrap-icons.min.css">
+
+    <!-- Jquery -->
+    <script src="./js/jquery/dist/jquery.min.js"></script>
+    <!-- Handlebars -->
+    <script src="./js/handlebars/dist/handlebars.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="./js/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- scripts propios -->
+    <script src="./js/eCommerce.js"></script>
+    <script src="./js/theme.js"></script>
+
+    <title>Super eCommerce</title>
+</head>
+<body> 
+    <!-- HEADER -->
+    <nav class="navbar sticky-top bg-body-tertiary">
+
+        <div class="container-fluid">
+            <a href="/" class="navbar-brand">
+                <span class="fs-4">Super eCommerce</span>
+            </a>
+        
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+                <li class="nav-item">
+                <button id="btnThemeSwitch" class="btn py-2 px-0 px-lg-2 d-flex align-items-center">
+                    <i id="icon-theme" class="bi bi-sun"></i>
+                </button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- BODY -->
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">       
+                <div class="d-flex justify-content-end my-3 px-4">
+                    <div class="input-group">
+                        <!-- Ordenar por -->
+                        <button class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">Ordenar por</button>
+                        <ul class="dropdown-menu" id="sortOptions">
+                            <li><a class="dropdown-item" data-sort="priceAsc">Menor precio</a></li>
+                            <li><a class="dropdown-item" data-sort="priceDesc">Mayor precio</a></li>
+                            <li><a class="dropdown-item" data-sort="name">Nombre A-Z</a></li>
+                        </ul> 
+                        <!-- Buscador -->
+                        <input type="text" id="inputBuscar" class="form-control" placeholder="Buscar">
+                        <button class="btn btn-outline-secondary" id="btnBuscar" type="button"><i class="bi bi-search"></i></button>
+                    </div>
+                </div>
+                <!-- Lista de elementos -->
+                <div id="products-container"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- FOOTER -->
+    <nav class="navbar fixed-bottom bg-body-tertiary">
+        <div class="container-fluid">
+          <div class="col-md-4 d-flex align-items-center">
+            <span class="mb-3 mb-md-0 text-body-secondary">&copy; 2024 Company, Inc</span>
+          </div>
+      
+          <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+            <li class="ms-3"><a class="text-body-secondary" href="#"><i class="bi bi-twitter-x" width="24" height="24"></i></a></li>
+            <li class="ms-3"><a class="text-body-secondary" href="#"><i class="bi bi-instagram" width="24" height="24"></i></a></li>
+            <li class="ms-3"><a class="text-body-secondary" href="#"><i class="bi bi-facebook" width="24" height="24"></i></svg></a></li>
+          </ul>
+        </div>
+    </nav>
+</body>
+</html>
