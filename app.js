@@ -15,7 +15,7 @@ app.use('/js', express.static(path.join(__dirname, 'scripts')));
 // MOCKS
 app.use('/mocks', express.static(path.join(__dirname, 'mocks')));
 // Handlebars
-app.use('/handlebars', express.static(path.join(__dirname, 'handlebars')));
+app.use('/sourceTemplates', express.static(path.join(__dirname, 'sourceTemplates')));
 
 // Ruta para cargar la vista HTML
 app.get('/', (req, res) => {

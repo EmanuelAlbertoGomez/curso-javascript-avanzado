@@ -17,9 +17,9 @@ $(function() {
     $('#sortOptions a').on('click', (event)=> sortProducts(event.target.dataset.sort));
 
     // Se obtienen el sourceTemplate t los datos del json
-    fetchTemplate('./handlebars/productos.hbs')
+    fetchTemplate('./sourceTemplates/productos.hbs')
     .then(async template => {
-        const data = await fetchJSONData('./mocks/productos.json');
+        const data = await getProductos();
         renderTemplateInto(template, data, 'products-container');
 
         // Almacena los productos que se ordenaron
@@ -37,11 +37,14 @@ function fetchTemplate(templatePath) {
     });
 }
 
-// Obtener la data de un JSON
-function fetchJSONData(jsonPath) {
+// Obtener productos 
+function getProductos() {
     return new Promise((resolve, reject) => {
-        $.getJSON(jsonPath, data => resolve(data))
-        .fail(() => reject(`Error fetching JSON: ${jsonPath}`));
+        $.ajax({
+            url: 'http://localhost:4000/backendmock/productos',
+            success: (result) => resolve(result),
+            error: () => reject(`Error al obtener productos`)
+        });
     });
 }
 
