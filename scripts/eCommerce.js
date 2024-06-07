@@ -1,56 +1,66 @@
-// En lugar de $document.ready() que está deprecado y se recomienda su desuso para jquery 3 o superiór
-$(function() {
+document.addEventListener('DOMContentLoaded', function() {
+
     // Almacena los productos filtrados
     window.filteredProducts = [];
-    
+
     // Event listener para la búsqueda por botón
-    $('#btnBuscar').on('click', ()=> filterProducts($('#inputBuscar').val()));
-    
+    document.getElementById('btnBuscar').addEventListener('click', () => {
+        filterProducts(document.getElementById('inputBuscar').value);
+    });
+
     // Event listener para la búsqueda al presionar Enter en el input
-    $('#inputBuscar').on('keypress', (event) => {
-        if (event.which === 13) { // Tecla Enter
-            filterProducts($('#inputBuscar').val());
+    document.getElementById('inputBuscar').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            filterProducts(document.getElementById('inputBuscar').value);
         }
     });
 
     // Event listener para ordenar
-    $('#sortOptions a').on('click', (event)=> sortProducts(event.target.dataset.sort));
+    document.querySelectorAll('#sortOptions a').forEach(function(element) {
+        element.addEventListener('click', (event) => {
+            sortProducts(event.target.dataset.sort);
+        });
+    });
 
-    // Se obtienen el sourceTemplate t los datos del json
-    fetchTemplate('./sourceTemplates/productos.hbs')
-    .then(async template => {
-        const data = await getProductos();
-        renderTemplateInto(template, data, 'products-container');
+    // Se obtienen el sourceTemplate y se obtienen los productos por API backend
+    getTemplate('./sourceTemplates/productos.hbs')
+        .then(async template => {
+            const data = await getProductos();
+            renderTemplateInto(template, data, 'products-container');
 
-        // Almacena los productos que se ordenaron
-        window.productsData = data;
-        window.productsTemplate = template;
-    })
-    .catch(error => console.error(error));
+            // Almacena los productos que se ordenaron
+            window.productsData = data;
+            window.productsTemplate = template;
+        })
+        .catch(error => console.error(error));
 });
 
 // Obtener Handlebars template
-function fetchTemplate(templatePath) {
-    return new Promise((resolve, reject) => {
-        $.get(templatePath, templateSource => resolve(Handlebars.compile(templateSource)))
-        .fail(() => reject(`Error fetching Handlebars template: ${templatePath}`));
-    });
+function getTemplate(templatePath) {
+    return fetch(templatePath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error fetching Handlebars template: ${templatePath}`);
+            }
+            return response.text();
+        })
+        .then(templateSource => Handlebars.compile(templateSource));
 }
 
-// Obtener productos 
+// Obtener productos del backend
 function getProductos() {
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            url: 'http://localhost:4000/backendmock/productos',
-            success: (result) => resolve(result),
-            error: () => reject(`Error al obtener productos`)
+    return fetch(`/productos`)
+        .then(response => {
+            if (!response.ok) 
+                throw new Error('Error al obtener productos');
+            
+            return response.json();
         });
-    });
 }
 
 // Renderizar los datos en un elemento del DOM
 function renderTemplateInto(template, data, idObject) {
-    $(`#${idObject}`).html(template(data));
+    document.getElementById(idObject).innerHTML = template(data);
 }
 
 // Ordenar productos
@@ -68,13 +78,13 @@ function sortProducts(criterio) {
             productsToSort.sort((a, b) => a.nombre.localeCompare(b.nombre));
             break;
     }
-    
+
     renderTemplateInto(window.productsTemplate, productsToSort, 'products-container');
 }
 
 // Filtrar productos
 function filterProducts(query) {
-    window.filteredProducts = window.productsData.filter(product => 
+    window.filteredProducts = window.productsData.filter(product =>
         product.nombre.toLowerCase().includes(query.toLowerCase())
     );
     renderTemplateInto(window.productsTemplate, window.filteredProducts, 'products-container');
