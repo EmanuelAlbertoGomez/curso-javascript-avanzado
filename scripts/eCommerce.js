@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await getProductos();
             renderTemplateInto(template, data, 'products-container');
 
-            // Almacena los productos que se ordenaron
+            // Almacena los datos y el template en memoria
             window.productsData = data;
             window.productsTemplate = template;
         })
@@ -39,9 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
 function getTemplate(templatePath) {
     return fetch(templatePath)
         .then(response => {
-            if (!response.ok) {
+            if (!response.ok) 
                 throw new Error(`Error fetching Handlebars template: ${templatePath}`);
-            }
             return response.text();
         })
         .then(templateSource => Handlebars.compile(templateSource));
@@ -53,7 +52,6 @@ function getProductos() {
         .then(response => {
             if (!response.ok) 
                 throw new Error('Error al obtener productos');
-            
             return response.json();
         });
 }
